@@ -6,6 +6,24 @@ import socket
 import random
 import feedparser
 import os
+import json
+import threading
+from flask import Flask
+
+# 🔥 SERVIDOR PARA RENDER
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot activo"
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+def iniciar_web():
+    t = threading.Thread(target=run_web)
+    t.start()
 
 # --- CONFIGURACIÓN DEL BOT ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -22,10 +40,22 @@ VIDEO_LINK = "https://youtu.be/F67qG_uoX4s"
 # --- RSS YOUTUBE ---
 YOUTUBE_RSS = "https://www.youtube.com/feeds/videos.xml?channel_id=UCfzQjeCdi4cK_WREJJvwzoQ"
 
-# --- CONTROL PARA EVITAR DUPLICADOS YOUTUBE ---
-ultimo_envio_youtube = None
+# --- ARCHIVO DE CONTROL (ANTI DUPLICADOS REAL) ---
+ARCHIVO_ESTADO = "estado_youtube.json"
 
-# --- MENSAJES (SIN CAMBIOS) ---
+def cargar_estado():
+    if os.path.exists(ARCHIVO_ESTADO):
+        with open(ARCHIVO_ESTADO, "r") as f:
+            return json.load(f)
+    return {"ultimo": None, "fecha": ""}
+
+def guardar_estado(data):
+    with open(ARCHIVO_ESTADO, "w") as f:
+        json.dump(data, f)
+
+estado = cargar_estado()
+
+# --- MENSAJES ---
 mensajes_semana = {
     "08:00": """😃 ¡Buenos días! 👌
 
@@ -117,16 +147,17 @@ Mientras estamos disfrutando de nuestro Fin de Semana los Bots siguen operando e
     "12:00_VIDEO": mensajes_semana["14:00_VIDEO"]
 }
 
-# --- FUNCIONES AUXILIARES ---
+# --- FUNCIONES ---
 def internet_disponible():
     try:
         socket.create_connection(("8.8.8.8", 53), timeout=3)
         return True
-    except OSError:
+    except:
         return False
 
 def enviar_mensaje(texto):
     while not internet_disponible():
+        print("❌ Sin internet...", flush=True)
         time.sleep(10)
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -136,9 +167,9 @@ def enviar_mensaje(texto):
         "parse_mode": "Markdown",
         "disable_web_page_preview": False
     })
-    print(f"📤 Mensaje enviado: {r.status_code}")
 
-# 🔥 REEMPLAZO CLAVE (ANTES enviar_video)
+    print(f"📤 Mensaje enviado: {r.status_code}", flush=True)
+
 def enviar_video(_, caption):
     mensaje = f"""{caption}
 
@@ -146,7 +177,7 @@ def enviar_video(_, caption):
 """
     enviar_mensaje(mensaje)
 
-# --- YOUTUBE (SIN CAMBIOS) ---
+# --- YOUTUBE ---
 def obtener_video_youtube():
     feed = feedparser.parse(YOUTUBE_RSS)
     if not feed.entries:
@@ -156,41 +187,53 @@ def obtener_video_youtube():
     return video.title, video.link
 
 def publicar_video_youtube():
-    global ultimo_envio_youtube
+    global estado
+
+    hoy = datetime.date.today().isoformat()
+
+    if estado["fecha"] == hoy:
+        print("⚠️ Ya se publicó hoy", flush=True)
+        return
 
     for _ in range(5):
         data = obtener_video_youtube()
         if not data:
             return
-        
+
         titulo, link = data
 
-        if link != ultimo_envio_youtube:
-            ultimo_envio_youtube = link
+        if link != estado["ultimo"]:
+            estado["ultimo"] = link
+            estado["fecha"] = hoy
+            guardar_estado(estado)
+
             mensaje = f"""🎬 {titulo}
 
 📺 Ver aquí 👉 {link}
 """
             enviar_mensaje(mensaje)
+            print("✅ YouTube publicado", flush=True)
             return
 
-# --- FUNCIÓN PROGRAMADA ---
+# --- TAREAS ---
 def tarea_programada(hora):
     hoy = datetime.datetime.today().weekday()
     es_semana = hoy < 5
     mensajes = mensajes_semana if es_semana else mensajes_fin_semana
 
     key = f"{hora}_VIDEO" if f"{hora}_VIDEO" in mensajes else hora
+
     if key in mensajes:
+        print(f"⏰ Ejecutando {hora}", flush=True)
+
         if "VIDEO" in key:
             enviar_video(None, mensajes[key])
         else:
             enviar_mensaje(mensajes[key])
 
-# --- CONTROL YOUTUBE ---
 def tarea_youtube_controlada():
-    hoy = datetime.datetime.today().weekday()
     ahora = datetime.datetime.now()
+    hoy = ahora.weekday()
 
     if hoy < 5 and ahora.hour == 16 and ahora.minute == 0:
         publicar_video_youtube()
@@ -200,12 +243,16 @@ def tarea_youtube_controlada():
 
 # --- SCHEDULE ---
 horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00"]
+
 for h in horarios:
     schedule.every().day.at(h).do(tarea_programada, h)
 
 schedule.every().minute.do(tarea_youtube_controlada)
 
-print("🤖 Bot activo...")
+print("🤖 Bot activo en Render", flush=True)
+
+# 🔥 INICIAR SERVIDOR
+iniciar_web()
 
 # --- LOOP ---
 while True:
