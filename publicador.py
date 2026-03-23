@@ -34,13 +34,17 @@ if not BOT_TOKEN or not CANAL_ID:
 
 CANAL_ID = int(CANAL_ID)
 
+# --- TIMEZONE (🔥 CLAVE) ---
+def hora_bolivia():
+    return datetime.datetime.utcnow() - datetime.timedelta(hours=4)
+
 # --- LINK FIJO DEL VIDEO ---
 VIDEO_LINK = "https://youtu.be/F67qG_uoX4s"
 
 # --- RSS YOUTUBE ---
 YOUTUBE_RSS = "https://www.youtube.com/feeds/videos.xml?channel_id=UCfzQjeCdi4cK_WREJJvwzoQ"
 
-# --- ARCHIVO DE CONTROL (ANTI DUPLICADOS REAL) ---
+# --- ARCHIVO DE CONTROL ---
 ARCHIVO_ESTADO = "estado_youtube.json"
 
 def cargar_estado():
@@ -189,7 +193,7 @@ def obtener_video_youtube():
 def publicar_video_youtube():
     global estado
 
-    hoy = datetime.date.today().isoformat()
+    hoy = hora_bolivia().date().isoformat()
 
     if estado["fecha"] == hoy:
         print("⚠️ Ya se publicó hoy", flush=True)
@@ -217,14 +221,17 @@ def publicar_video_youtube():
 
 # --- TAREAS ---
 def tarea_programada(hora):
-    hoy = datetime.datetime.today().weekday()
+    ahora = hora_bolivia()
+    hoy = ahora.weekday()
+    hora_actual = ahora.strftime("%H:%M")
+
     es_semana = hoy < 5
     mensajes = mensajes_semana if es_semana else mensajes_fin_semana
 
     key = f"{hora}_VIDEO" if f"{hora}_VIDEO" in mensajes else hora
 
-    if key in mensajes:
-        print(f"⏰ Ejecutando {hora}", flush=True)
+    if hora == hora_actual and key in mensajes:
+        print(f"⏰ Ejecutando {hora} (hora Bolivia)", flush=True)
 
         if "VIDEO" in key:
             enviar_video(None, mensajes[key])
@@ -232,7 +239,7 @@ def tarea_programada(hora):
             enviar_mensaje(mensajes[key])
 
 def tarea_youtube_controlada():
-    ahora = datetime.datetime.now()
+    ahora = hora_bolivia()
     hoy = ahora.weekday()
 
     if hoy < 5 and ahora.hour == 16 and ahora.minute == 0:
@@ -241,15 +248,15 @@ def tarea_youtube_controlada():
     elif hoy >= 5 and ahora.hour == 14 and ahora.minute == 0:
         publicar_video_youtube()
 
-# --- SCHEDULE ---
+# --- SCHEDULE (SE MANTIENE IGUAL) ---
 horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00"]
 
 for h in horarios:
-    schedule.every().day.at(h).do(tarea_programada, h)
+    schedule.every().minute.do(tarea_programada, h)
 
 schedule.every().minute.do(tarea_youtube_controlada)
 
-print("🤖 Bot activo en Render", flush=True)
+print("🤖 Bot activo en Render (AUTO TIMEZONE)", flush=True)
 
 # 🔥 INICIAR SERVIDOR
 iniciar_web()
