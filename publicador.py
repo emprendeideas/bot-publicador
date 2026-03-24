@@ -169,7 +169,7 @@ def enviar_mensaje(texto):
         "chat_id": CANAL_ID,
         "text": texto,
         "parse_mode": "Markdown",
-        "disable_web_page_preview": False
+        "disable_web_page_preview": True
     })
 
     print(f"📤 Mensaje enviado: {r.status_code}", flush=True)
@@ -220,6 +220,8 @@ def publicar_video_youtube():
             return
 
 # --- TAREAS ---
+ejecutados = set()
+
 def tarea_programada(hora):
     ahora = hora_bolivia()
     hoy = ahora.weekday()
@@ -230,13 +232,15 @@ def tarea_programada(hora):
 
     key = f"{hora}_VIDEO" if f"{hora}_VIDEO" in mensajes else hora
 
-    if hora == hora_actual and key in mensajes:
+    if hora == hora_actual and key in mensajes and f"{hora}-{ahora.date()}" not in ejecutados:
         print(f"⏰ Ejecutando {hora} (hora Bolivia)", flush=True)
 
         if "VIDEO" in key:
             enviar_video(None, mensajes[key])
         else:
             enviar_mensaje(mensajes[key])
+
+        ejecutados.add(f"{hora}-{ahora.date()}")
 
 def tarea_youtube_controlada():
     ahora = hora_bolivia()
