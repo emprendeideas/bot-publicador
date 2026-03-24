@@ -159,6 +159,7 @@ def internet_disponible():
     except:
         return False
 
+# ✅ MENSAJES NORMALES (SIN PREVIEW)
 def enviar_mensaje(texto):
     while not internet_disponible():
         print("❌ Sin internet...", flush=True)
@@ -169,17 +170,34 @@ def enviar_mensaje(texto):
         "chat_id": CANAL_ID,
         "text": texto,
         "parse_mode": "Markdown",
-        "disable_web_page_preview": True
+        "disable_web_page_preview": True  # ❌ SIN preview
     })
 
     print(f"📤 Mensaje enviado: {r.status_code}", flush=True)
 
+# ✅ MENSAJES CON PREVIEW (YOUTUBE / LINKS)
+def enviar_mensaje_con_preview(texto):
+    while not internet_disponible():
+        print("❌ Sin internet...", flush=True)
+        time.sleep(10)
+
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    r = requests.post(url, data={
+        "chat_id": CANAL_ID,
+        "text": texto,
+        "parse_mode": "Markdown",
+        "disable_web_page_preview": False  # ✅ CON preview
+    })
+
+    print(f"📤 Mensaje (preview) enviado: {r.status_code}", flush=True)
+
+# ✅ VIDEO (USA PREVIEW)
 def enviar_video(_, caption):
     mensaje = f"""{caption}
 
 📺 Ver aquí 👉 {VIDEO_LINK}
 """
-    enviar_mensaje(mensaje)
+    enviar_mensaje_con_preview(mensaje)
 
 # --- YOUTUBE ---
 def obtener_video_youtube():
@@ -215,7 +233,7 @@ def publicar_video_youtube():
 
 📺 Ver aquí 👉 {link}
 """
-            enviar_mensaje(mensaje)
+            enviar_mensaje_con_preview(mensaje)
             print("✅ YouTube publicado", flush=True)
             return
 
