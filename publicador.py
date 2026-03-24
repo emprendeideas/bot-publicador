@@ -67,13 +67,13 @@ Empezamos operaciones
 
 Puedes abrir tu cuenta para recibir las operaciones 👏
 
-Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial)
+Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)
 
 Comenzamos! 🦾😎 💰💰""",
 
     "09:00": """🤩 Recuerda, el servicio de CopyTrade es GRATUITO 
 
-Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial)
+Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)
 
 Ganancias de 5 a 17usd diarios
 
@@ -87,7 +87,7 @@ Nuestro Sistema Automatizado IA 🤖 se encarga de todo, analizando constantemen
 
 ¡Es hora de dar un paso hacia un futuro financiero, la Inteligencia Artificial! 🦾😎
 
-⚙️ Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial)""",
+⚙️ Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)""",
 
     "11:00": """🤑 NUESTROS UNICOS PLANES
 
@@ -102,16 +102,16 @@ Ganancia diaria = 13 a 15usd ✅
 5️⃣ Depósito 150usd 
 Ganancia diaria = 15 a 17usd ✅
 
-💰 Si deseas operar Capitales más altos puedes ingresar al Fondo De Inversiones FDI con el 50% de Ganancia FIJA cada 5 dias! 👉https://t.me/inversioneess
+💰 Si deseas operar Capitales más altos puedes ingresar al Fondo De Inversiones FDI con el 50% de Ganancia FIJA cada 5 dias! 👉https://telegram.me/inversioneess
 
-Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial) 
+Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial) 
 
 HOY puedes recibir tus primeras ganancias ¿Qué esperas?🤓
 """,
 
     "12:00": """💰 Utiliza el Código BQI667 al hacer tu Primer Depósito y obtén un Bono del 60% de tu capital. 🎁
 
-Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial)
+Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)
 
 🟢 ¡Cuando haga su primer depósito escriba 👉 BQI667 y obtenga el 60% Gratis❗️""",
 
@@ -119,7 +119,7 @@ Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial)
 
 Gracias❗️ a los usuarios que están utilizando el #Servicio #Externo de #CopyTrade
 
-Info Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial)""",
+Info Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)""",
 
     "14:00_VIDEO": """🤖 Conector de señales Bot 
 
@@ -132,7 +132,7 @@ Esto es Oro 🥇
 
 😎 Funciona en Cualquier Broker en cuentas Demo y Real
 
-Escríbeme ➡️ [🚀 Nano Bots](https://t.me/NanoMillenial)"""
+Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)"""
 }
 
 mensajes_fin_semana = {
