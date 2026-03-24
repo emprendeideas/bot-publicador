@@ -262,6 +262,19 @@ print("🤖 Bot activo en Render (AUTO TIMEZONE)", flush=True)
 iniciar_web()
 
 # --- LOOP ---
+contador = 0
+
 while True:
     schedule.run_pending()
     time.sleep(5)
+
+    contador += 5
+
+    if contador >= 300:
+        proximo = schedule.idle_seconds()
+
+        if proximo:
+            minutos, segundos = divmod(int(proximo), 60)
+            print(f"⏳ Próxima publicación en {minutos}m {segundos}s", flush=True)
+
+        contador = 0
