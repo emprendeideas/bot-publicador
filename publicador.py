@@ -36,7 +36,7 @@ CANAL_ID = int(CANAL_ID)
 
 # --- TIMEZONE (🔥 CLAVE) ---
 def hora_bolivia():
-    return datetime.datetime.utcnow() - datetime.timedelta(hours=4)
+    return datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=4)
 
 # --- LINK FIJO DEL VIDEO ---
 VIDEO_LINK = "https://youtu.be/F67qG_uoX4s"
