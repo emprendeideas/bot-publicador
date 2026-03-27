@@ -130,9 +130,7 @@ Esto es Oro 🥇
 
 ¡¡Con el Conector de Señales NO pierdes ninguna señal enviada de tu grupo favorito!! 
 
-😎 Funciona en Cualquier Broker en cuentas Demo y Real
-
-Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)"""
+😎 Funciona en Cualquier Broker en cuentas Demo y Real"""
 }
 
 mensajes_fin_semana = {
@@ -148,7 +146,7 @@ Mientras estamos disfrutando de nuestro Fin de Semana los Bots siguen operando e
 
 #NanoBots""",
 
-    "12:00_VIDEO": mensajes_semana["15:00_VIDEO"]
+    "12:00_VIDEO": mensajes_semana["14:00_VIDEO"]
 }
 
 # --- FUNCIONES ---
@@ -185,7 +183,6 @@ def enviar_mensaje_con_preview(texto):
     r = requests.post(url, data={
         "chat_id": CANAL_ID,
         "text": texto,
-        "parse_mode": "Markdown",
         "disable_web_page_preview": False  # ✅ CON preview
     })
 
@@ -280,11 +277,11 @@ def tarea_youtube_controlada():
     if hoy < 5 and ahora.hour == 16 and ahora.minute == 0:
         publicar_video_youtube()
 
-    elif hoy >= 5 and ahora.hour == 15 and ahora.minute == 0:
+    elif hoy >= 5 and ahora.hour == 14 and ahora.minute == 0:
         publicar_video_youtube()
 
 # --- SCHEDULE (SE MANTIENE IGUAL) ---
-horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","15:00"]
+horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00"]
 
 for h in horarios:
     schedule.every().minute.do(tarea_programada, h)
