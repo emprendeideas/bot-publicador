@@ -121,7 +121,7 @@ Gracias❗️ a los usuarios que están utilizando el #Servicio #Externo de #Cop
 
 Info Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)""",
 
-    "15:00_VIDEO": """🤖 Conector de señales Bot 
+    "14:00_VIDEO": """🤖 Conector de señales Bot 
 
 🔥 Este Robot IA copia las señales que se envían en CUALQUIER GRUPO O CANAL de Telegram y se ABREN Automáticamente en tu cuenta sin que tengas que hacer NADA, Automáticamente en mercado Normal y OTC 
 
