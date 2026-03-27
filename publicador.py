@@ -121,7 +121,7 @@ Gracias❗️ a los usuarios que están utilizando el #Servicio #Externo de #Cop
 
 Info Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)""",
 
-    "14:55_VIDEO": """🤖 Conector de señales Bot 
+    "15:00_VIDEO": """🤖 Conector de señales Bot 
 
 🔥 Este Robot IA copia las señales que se envían en CUALQUIER GRUPO O CANAL de Telegram y se ABREN Automáticamente en tu cuenta sin que tengas que hacer NADA, Automáticamente en mercado Normal y OTC 
 
@@ -148,7 +148,7 @@ Mientras estamos disfrutando de nuestro Fin de Semana los Bots siguen operando e
 
 #NanoBots""",
 
-    "12:00_VIDEO": mensajes_semana["14:00_VIDEO"]
+    "12:00_VIDEO": mensajes_semana["15:00_VIDEO"]
 }
 
 # --- FUNCIONES ---
@@ -280,11 +280,11 @@ def tarea_youtube_controlada():
     if hoy < 5 and ahora.hour == 16 and ahora.minute == 0:
         publicar_video_youtube()
 
-    elif hoy >= 5 and ahora.hour == 14 and ahora.minute == 55:
+    elif hoy >= 5 and ahora.hour == 15 and ahora.minute == 0:
         publicar_video_youtube()
 
 # --- SCHEDULE (SE MANTIENE IGUAL) ---
-horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","14:55"]
+horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","15:00"]
 
 for h in horarios:
     schedule.every().minute.do(tarea_programada, h)
