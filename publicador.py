@@ -121,7 +121,7 @@ Gracias❗️ a los usuarios que están utilizando el #Servicio #Externo de #Cop
 
 Info Escríbeme ➡️ [🚀 Nano Bots](https://telegram.me/NanoMillenial)""",
 
-    "14:00_VIDEO": """🤖 Conector de señales Bot 
+    "14:55_VIDEO": """🤖 Conector de señales Bot 
 
 🔥 Este Robot IA copia las señales que se envían en CUALQUIER GRUPO O CANAL de Telegram y se ABREN Automáticamente en tu cuenta sin que tengas que hacer NADA, Automáticamente en mercado Normal y OTC 
 
@@ -193,11 +193,24 @@ def enviar_mensaje_con_preview(texto):
 
 # ✅ VIDEO (USA PREVIEW)
 def enviar_video(_, caption):
+    while not internet_disponible():
+        print("❌ Sin internet...", flush=True)
+        time.sleep(10)
+
     mensaje = f"""{caption}
 
 📺 Ver aquí 👉 {VIDEO_LINK}
 """
-    enviar_mensaje_con_preview(mensaje)
+
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+
+    r = requests.post(url, data={
+        "chat_id": CANAL_ID,
+        "text": mensaje,
+        "disable_web_page_preview": False
+    })
+
+    print(f"📤 VIDEO Status: {r.status_code} | {r.text}", flush=True)
 
 # --- YOUTUBE ---
 def obtener_video_youtube():
@@ -267,11 +280,11 @@ def tarea_youtube_controlada():
     if hoy < 5 and ahora.hour == 16 and ahora.minute == 0:
         publicar_video_youtube()
 
-    elif hoy >= 5 and ahora.hour == 14 and ahora.minute == 0:
+    elif hoy >= 5 and ahora.hour == 14 and ahora.minute == 55:
         publicar_video_youtube()
 
 # --- SCHEDULE (SE MANTIENE IGUAL) ---
-horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","14:00"]
+horarios = ["08:00","09:00","10:00","11:00","12:00","13:00","14:55"]
 
 for h in horarios:
     schedule.every().minute.do(tarea_programada, h)
